@@ -1,0 +1,376 @@
+My_menu.xml
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/item1"
+        android:title="option 1"/>
+    <item android:id="@+id/item2"
+        android:title="option 2"/>
+    <item android:id="@+id/item3"
+        android:title="option 3"/>
+
+</menu>
+
+MainActivity.Java
+package nmit.optionmenu;
+
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.widget.Toast;
+
+public class MainActivity extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+    }
+
+        @Override
+        public boolean onCreateOptionsMenu(Menu menu)
+        {
+            MenuInflater menuInflater=getMenuInflater();
+            menuInflater.inflate(R.menu.my_menu,menu);
+            return super.onCreateOptionsMenu(menu);
+        }
+
+        @Override
+        public boolean  onOptionsItemSelected(MenuItem item)
+
+        {
+            switch (item.getItemId()){
+                case R.id.item1:
+                Toast.makeText(this,"option 1 is selected",Toast.LENGTH_SHORT).show();
+                break;
+
+                case R.id.item2:
+                Toast.makeText(this,"option 2 is selected",Toast.LENGTH_SHORT).show();
+                break;
+                case R.id.item3:
+                Toast.makeText(this,"option 3 is selected",Toast.LENGTH_SHORT).show();
+                break;
+
+           }
+            return super.onOptionsItemSelected(item);
+        }
+
+    }
+
+
+
+Activity_main.xml
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="nmit.optionmenu.MainActivity">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="DEMO PROGRAM ON OPTIONS MENU!"
+        android:textColor="@color/colorAccent"/>
+</RelativeLayout>
+
+
+Output:
+ 
+
+CONTEXT MENU
+//XML FILE
+
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_main"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="nmit.mymenu.MainActivity">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="THIS IS A CONTEXT MENU DEMO"
+        android:textColor="@color/colorAccent"/>
+    <Button
+        android:id="@+id/btnShow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Long press me"
+        android:layout_marginTop="200dp"
+        android:layout_marginLeft="100dp"/>
+</LinearLayout>
+
+
+//JAVA FILE
+package nmit.mymenu;
+
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.view.ContextMenu;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.Toast;
+
+public class MainActivity extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        Button btn = (Button) findViewById(R.id.btnShow);
+        registerForContextMenu(btn);
+
+    }
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        menu.setHeaderTitle("Context Menu");
+        menu.add(0, v.getId(), 0, "Upload");
+        menu.add(0, v.getId(), 3, "Search");
+        menu.add(0, v.getId(), 2, "Share");
+        menu.add(0, v.getId(), 1, "Bookmark");
+
+
+
+    }
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        Toast.makeText(this, "Selected Item: " +item.getTitle(), Toast.LENGTH_SHORT).show();
+        return true;
+    }
+}
+
+//OUTPUT
+                          
+
+d. How to use ListAdapter and ArrayAdapter to bind data source to a List View.
+
+ListView should have a TextView for array adapter to operate.
+
+activity_main.xml (ListView widget)
+....................................
+?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="nmit.listadapter.MainActivity">
+
+    <ListView
+        android:id="@+id/simpleListView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+       />
+</LinearLayout>
+
+activity_listView.xml
+.....................................
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:padding="@dimen/activity_horizontal_margin"
+        android:textColor="#000" />
+</LinearLayout>
+
+
+
+
+MainActivity.java
+.................................
+package nmit.listadapter;
+
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+
+public class MainActivity extends AppCompatActivity {
+    // Array of strings...
+    ListView simpleList;
+    String animalList[] = {"Lion","Tiger","Monkey","Elephant","Dog","Cat","Camel"};
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        simpleList = (ListView) findViewById(R.id.simpleListView);
+
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, R.layout.activity_listview, R.id.textView, animalList);
+        simpleList.setAdapter(arrayAdapter);
+    }
+
+}
+
+
+
+OUTPUT:
+ 
+
+
+
+
+
+
+
+
+
+
+
+ e.How to create AlertDialog and progress Dialog in your activity	
+Alert Dialog
+package com.nmit.dialog;
+import android.content.DialogInterface;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.support.v7.widget.VectorEnabledTintResources;
+import android.view.View;
+import android.widget.Button;
+
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
+    private static Button button_sbm;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        button_sbm = (Button) findViewById(R.id.button);
+        button_sbm.setOnClickListener(MainActivity.this);
+    }
+
+    @Override
+    public void onClick(View v) {
+        AlertDialog.Builder a_builder = new AlertDialog.Builder(MainActivity.this);
+        a_builder.setMessage("Do you want to close this app!!!").setCancelable(false)
+                .setPositiveButton("yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        finish();
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+        AlertDialog alert = a_builder.create();
+        alert.setTitle("ALERT!!");
+        alert.show();
+
+    }
+}
+
+//xml create a single button 
+<Button
+
+        android:text="Alert"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+       
+        android:layout_marginTop="76dp"
+        android:id="@+id/button" />
+
+Progress Dialog
+package com.nmit.dialog;
+
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.support.v7.widget.VectorEnabledTintResources;
+import android.view.View;
+import android.widget.Button;
+import android.widget.Toast;
+
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
+    private static Button btn;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        btn = (Button) findViewById(R.id.progress);
+    btn.setOnClickListener(MainActivity.this);
+    }
+
+    @Override
+    public void onClick(View v) {
+        final ProgressDialog progressDialog = new ProgressDialog(MainActivity.this);
+        progressDialog.setTitle("Download");
+        progressDialog.setMessage("Downloading....");
+        progressDialog.setProgressStyle(progressDialog.STYLE_HORIZONTAL);
+        progressDialog.setProgress(0);
+        progressDialog.setMax(100);
+
+        Thread t = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                int progress = 0;
+                while(progress <=100){
+                    try{
+                        progressDialog.setProgress(progress);
+                        progress++;
+                        Thread.sleep(200);
+                    }catch(Exception ex) {
+
+
+                    }
+                    }
+                progressDialog.dismiss();
+                MainActivity.this.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(MainActivity.this, "Download completed", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                }
+            });
+        t.start();
+        progressDialog.show();
+        }
+    }
+
+//xml create a single button 
+<Button
+
+        android:text="Progress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+       
+        android:layout_marginTop="76dp"
+        android:id="@+id/btn" />
+
+
+OUTPUT: 
+

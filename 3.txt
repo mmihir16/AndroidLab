@@ -1,0 +1,503 @@
+Activity_main.xml
+     <?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="nmit.sharedpreference.MainActivity">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="DEMO PROGRAM ON SHARED PREFERENCES"
+        android:textColor="@color/colorAccent"/>
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:background="@color/colorPrimary"
+        android:textColor="#FFFFFF"
+        android:id="@+id/name"
+        />
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="80dp"
+        android:id="@+id/save"
+        android:text="SAVE"
+        android:onClick="sav"
+        />
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="80dp"
+        android:layout_marginLeft="120dp"
+        android:id="@+id/delete"
+        android:text="DELETE"
+        android:onClick="del"
+        />
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="80dp"
+        android:layout_marginLeft="220dp"
+        android:text="RETRIEVE"
+        android:id="@+id/retrieve"
+        android:onClick="ret"
+        />
+</RelativeLayout>
+MainActivity.Java
+package nmit.sharedpreference;
+
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.EditText;
+
+public class MainActivity extends AppCompatActivity {
+    SharedPreferences sf;
+    EditText name;
+    public static final String preference="pref";
+    public static final String saveit="savekey";
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        name= (EditText) findViewById(R.id.name);
+        sf=getSharedPreferences(preference, Context.MODE_PRIVATE);
+        if(sf.contains(saveit))
+        {
+            name.setText(sf.getString(saveit,""));
+
+        }
+
+    }
+
+    public void sav(View view)
+    {
+        String store=name.getText().toString();
+        SharedPreferences.Editor ed=sf.edit();
+        ed.putString(saveit,store);
+        ed.commit();
+    }
+
+    public void del(View v)
+    {
+        name= (EditText) findViewById(R.id.name);
+        name.setText("");
+    }
+
+    public void ret(View v)
+    {
+        name= (EditText) findViewById(R.id.name);
+        sf=getSharedPreferences(preference, Context.MODE_PRIVATE);
+        if(sf.contains(saveit))
+        {
+            name.setText(sf.getString(saveit,""));
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
+
+output:
+
+ 
+
+
+b.	How to save & restore data as Instance State
+//XML FILE
+
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="nmit.instancestate.MainActivity">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Hello World!" />
+
+
+    <EditText
+        android:id="@+id/name"
+        android:layout_marginTop="50dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:id="@+id/submit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Submit"
+        android:onClick="display"
+        android:layout_marginTop="100dp"/>
+
+    <TextView
+        android:id="@+id/textDisplay"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="200dp"/>
+</RelativeLayout>
+
+JAVA FILE
+package nmit.instancestate;
+
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
+
+public class MainActivity extends AppCompatActivity {
+
+    EditText name;
+    TextView textDisplay;
+  private static final String KEY_FIRSTNAME="firstname_key";
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        name = (EditText) findViewById(R.id.name);
+        textDisplay = (TextView) findViewById(R.id.textDisplay);
+
+        if(savedInstanceState!=null){
+            String savedname = savedInstanceState.getString(KEY_FIRSTNAME);
+            textDisplay.setText(savedname);
+
+        }
+        else
+            Toast.makeText(this, "new entry", Toast.LENGTH_LONG).show();
+    }
+
+   public void onSaveInstanceState(Bundle savedInstanceState){
+
+
+        savedInstanceState.putString(KEY_FIRSTNAME, textDisplay.getText().toString());
+        super.onSaveInstanceState(savedInstanceState);
+    }
+
+    public void display (View v){
+
+        textDisplay.setText(name.getText().toString());
+
+    }
+
+}
+
+
+//OUTPUT
+   
+Before orientation
+ 
+Before saving instance
+ 
+After saving instance
+
+c.How to create and manage an SQLiteDatabase in Android.
+d.How to insert, update, remove, and retrieve data from an SQLite Database.
+
+Activity_main.xml
+
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="nmit.avika.MainActivity">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Demo on SLQLITE"
+        android:textColor="@color/colorAccent"/>
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:id="@+id/etname"
+        android:hint="Enter Name"
+        android:background="#D3D3D3"
+        android:layout_marginTop="20dp"/>
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:id="@+id/etsalary"
+        android:hint="Enter Salary"
+        android:background="#D3D3D3"
+        android:layout_marginTop="60dp"/>
+    <Button
+        android:layout_width="60dp"
+        android:layout_height="20dp"
+        android:text="Insert"
+        android:id="@+id/btnInsert"
+        android:background="@color/colorPrimaryDark"
+        android:textColor="#ffffff"
+        android:layout_marginTop="120dp"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"/>
+
+    <Button
+        android:layout_width="60dp"
+        android:layout_height="20dp"
+        android:text="Update"
+        android:id="@+id/btnUpdate"
+        android:background="@color/colorPrimaryDark"
+        android:textColor="#ffffff"
+        android:layout_below="@+id/btnInsert"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="180dp"
+        android:gravity="center"/>
+
+    <Button
+        android:layout_width="60dp"
+        android:layout_height="20dp"
+        android:text="Select"
+        android:id="@+id/btnSelect"
+        android:background="@color/colorPrimaryDark"
+        android:textColor="#ffffff"
+        android:layout_marginTop="170dp"
+        android:layout_marginLeft="160dp"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"/>
+
+    <Button
+        android:layout_width="60dp"
+        android:layout_height="20dp"
+        android:text="Delete"
+        android:id="@+id/btnDelete"
+        android:background="@color/colorPrimaryDark"
+        android:textColor="#ffffff"
+        android:gravity="center"
+        android:layout_alignParentBottom="true"
+        android:layout_alignStart="@+id/btnSelect"
+        android:layout_marginBottom="189dp" />
+</RelativeLayout>
+
+
+DbHelper.Java
+
+package nmit.avika;
+import android.content.ContentValues;
+import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
+
+
+/**
+ * Created by user on 8/31/2018.
+ */
+
+public class DbHelper extends SQLiteOpenHelper {
+    private static String CREATE_TABLE1;
+
+    //    Database name
+    static String DATABASE_NAME = "EmployeeRecords";
+
+    //    Talble name
+    public static final String TABLE1_NAME = "employee";
+
+    //      Fields for table
+    public static final String ID = "id";
+    public static final String NAME = "name";
+    public static final String SALARY = "salary";
+
+    //      Required resorces to manage database
+    private ContentValues cValues;
+    private SQLiteDatabase dataBase = null;
+    private Cursor cursor;
+
+    public DbHelper(Context context) {
+        super(context, context.getExternalFilesDir(null).getAbsolutePath()
+                + "/" + DATABASE_NAME, null, 1);}
+    @Override
+    public void onCreate(SQLiteDatabase db) {
+        CREATE_TABLE1 = "CREATE TABLE " + TABLE1_NAME + "(" + ID
+                + " INTEGER PRIMARY KEY autoincrement, " + NAME
+                + " TEXT, " + SALARY + " TEXT)";
+
+
+        db.execSQL(CREATE_TABLE1);
+        System.out
+                .println("Table is created...........................!");
+    }
+
+    @Override
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE1_NAME);
+
+        onCreate(db);
+    }
+
+    public void inserRecord(String name, String salary) {
+
+        dataBase = getWritableDatabase();
+        cValues = new ContentValues();
+
+        cValues.put(NAME, name);
+        cValues.put(SALARY, salary);
+
+        // insert data into database
+        dataBase.insert(TABLE1_NAME, null, cValues);
+
+        dataBase.close();
+    }
+
+    public boolean updateRecord(String name, String salary) {
+
+        dataBase = getWritableDatabase();
+        cValues = new ContentValues();
+        cValues.put(NAME, name);
+        cValues.put(SALARY, salary);
+//    Update data from database table
+        dataBase.update(DbHelper.TABLE1_NAME, cValues,null, null);
+        dataBase.close();
+        return true;
+    }
+
+    public Cursor selectRecords() {
+
+        dataBase = getReadableDatabase();
+
+//    Getting data from database table
+        cursor = dataBase.rawQuery("select * from " + TABLE1_NAME, null);
+        return cursor;
+    }
+
+
+    public void deleteRecord() {
+
+        dataBase = getWritableDatabase();
+//    Deleting all records from database table
+        dataBase.delete(TABLE1_NAME, null, null);
+        dataBase.close();
+    }
+
+
+}
+
+MainActivity.Java
+package nmit.avika;
+
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.database.Cursor;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
+
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+    private Button btnInsert, btnUpdate, btnSelect, btnDelete;
+    private DbHelper dbHelper;
+    private Cursor cursor;
+    private EditText etname,etsalary;
+
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        //        Initializing Database
+        dbHelper = new DbHelper(getApplicationContext());
+
+//        Getting ids for all buttons
+        btnInsert = (Button) findViewById(R.id.btnInsert);
+        btnUpdate = (Button) findViewById(R.id.btnUpdate);
+        btnSelect = (Button) findViewById(R.id.btnSelect);
+        btnDelete = (Button) findViewById(R.id.btnDelete);
+        etname=(EditText)findViewById(R.id.etname);
+        etsalary=(EditText)findViewById(R.id.etsalary);
+
+//        Attaching listeners for all buttons
+        btnInsert.setOnClickListener(this);
+        btnUpdate.setOnClickListener(this);
+        btnSelect.setOnClickListener(this);
+        btnDelete.setOnClickListener(this);
+        etname.setOnClickListener(this);
+        etsalary.setOnClickListener(this);
+
+    }
+    @Override
+    public void onClick(View v) {
+
+        switch (v.getId()) {
+
+            case R.id.btnInsert:
+                String getname=etname.getText().toString();
+                String getid=etsalary.getText().toString();
+                dbHelper.inserRecord(getname,getid);
+                Toast.makeText(MainActivity.this,"Inserted  Successfully!\n"+getname+"\n"+getid,Toast.LENGTH_SHORT).show();
+                //Toast.makeText(MainActivity.this,getid,Toast.LENGTH_LONG).show();
+                break;
+
+            case R.id.btnUpdate:
+                getname = etname.getText().toString();
+                getid = etsalary.getText().toString();
+                boolean isUpdate = dbHelper.updateRecord(getname,getid);
+                if (isUpdate == true)
+                Toast.makeText(MainActivity.this,"Record Updated Successfully..!  \n" , Toast.LENGTH_LONG).show();
+                else
+                Toast.makeText(MainActivity.this, "Record Not Updated Successfully..!  \n" , Toast.LENGTH_LONG).show();
+                break;
+
+            case R.id.btnSelect:
+
+                cursor = dbHelper.selectRecords();
+
+                if (cursor.moveToFirst()) {
+
+                    do {
+
+                        String strName = cursor.getString(cursor.getColumnIndex(DbHelper.NAME));
+                        String strSalary = cursor.getString(cursor.getColumnIndex(DbHelper.SALARY));
+
+                        Toast.makeText(MainActivity.this, "Values are \n Name :" + strName + "\n Salary :" + strSalary, Toast.LENGTH_LONG).show();
+
+                    } while (cursor.moveToNext());
+
+                }
+                cursor.close();
+
+                break;
+
+            case R.id.btnDelete:
+
+                dbHelper.deleteRecord();
+                Toast.makeText(MainActivity.this, "Record Deleted Successfully..!", Toast.LENGTH_LONG).show();
+
+                break;
+
+        }
+    }
+ }
